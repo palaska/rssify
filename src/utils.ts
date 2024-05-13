@@ -96,7 +96,7 @@ export function parseArticlesFromHtml(feed: Feed, html: HTMLString) {
     const description = `<![CDATA[${
       feed.selectors.description &&
       useSingleSelector(feed.selectors.description, articleHtml)
-    }]]`;
+    }]]>`;
     const link = useSingleSelector(feed.selectors.link, articleHtml);
     const date =
       feed.selectors.date && feed.selectors.date !== ""
