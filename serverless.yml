@@ -1,0 +1,20 @@
+service: rssify
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+      Resource: "arn:aws:s3:::rssify/*"
+
+functions:
+  app:
+    handler: dist/src/index.handler # Path to the compiled handler file
+    events:
+      - http:
+          path: /{feedId}
+          method: get
+          cors: true
