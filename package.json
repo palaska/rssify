@@ -2,7 +2,7 @@
   "name": "rssify",
   "version": "1.0.0",
   "scripts": {
-    "dev": "ts-node src/index.ts",
+    "dev": "ts-node src/index.ts local",
     "build": "tsc",
     "test": "jest --runInBand --forceExit",
     "deploy": "rm -rf ./dist && tsc && npx serverless deploy"

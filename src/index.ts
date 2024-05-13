@@ -66,3 +66,10 @@ const server = createServer(app);
 export const handler = (event: APIGatewayProxyEvent, context: Context) => {
   return proxy(server, event, context);
 };
+
+// if local argument is passed, start the server locally
+if (process.argv[2] === "local") {
+  app.listen(3000, () => {
+    console.log("Server is running on http://localhost:3000");
+  });
+}

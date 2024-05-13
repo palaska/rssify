@@ -61,7 +61,7 @@ export async function xmlToArticles(xml: string): Promise<Article[]> {
 }
 
 export function articlesToXml(articles: Article[], feed: Feed): string {
-  const builder = new xml2js.Builder();
+  const builder = new xml2js.Builder({ cdata: true });
   return builder.buildObject({
     rss: {
       $: { version: "2.0" },
@@ -93,10 +93,10 @@ export function parseArticlesFromHtml(feed: Feed, html: HTMLString) {
   const articles = useMultiSelector(feed.selectors.articles, html);
   const parsedArticles: Article[] = articles.map((articleHtml: string) => {
     const title = useSingleSelector(feed.selectors.title, articleHtml);
-    const description = `<![CDATA[${
-      feed.selectors.description &&
-      useSingleSelector(feed.selectors.description, articleHtml)
-    }]]>`;
+    const description =
+      (feed.selectors.description &&
+        useSingleSelector(feed.selectors.description, articleHtml)) ??
+      "";
     const link = useSingleSelector(feed.selectors.link, articleHtml);
     const date =
       feed.selectors.date && feed.selectors.date !== ""
