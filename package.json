@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
-    "test": "jest --runInBand --forceExit"
+    "test": "jest --runInBand --forceExit",
+    "deploy": "rm -rf ./dist && tsc && npx serverless deploy"
   },
   "keywords": [],
   "author": "",
