@@ -1,7 +1,8 @@
 import { Duration } from "moment";
 
 export enum FeedId {
-  CMUDB = "CMUDB",
+  CMUDB = "CMUDB", // Carneige Mellon University Database Group
+  TUMDB = "TUMDB", // Technical University of Munich Database Group
 }
 
 export type Article = {

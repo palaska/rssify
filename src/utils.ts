@@ -90,7 +90,11 @@ export async function loadArticles(feed: Feed) {
 }
 
 export function parseArticlesFromHtml(feed: Feed, html: HTMLString) {
-  const articles = useMultiSelector(feed.selectors.articles, html);
+  // fix all links if needed
+  const urlRoot = new URL(feed.link).origin;
+  const _html = html.replaceAll(` href="/`, ` href="${urlRoot}/`);
+
+  const articles = useMultiSelector(feed.selectors.articles, _html);
   const parsedArticles: Article[] = articles.map((articleHtml: string) => {
     const title = useSingleSelector(feed.selectors.title, articleHtml);
     const description =
@@ -98,10 +102,10 @@ export function parseArticlesFromHtml(feed: Feed, html: HTMLString) {
         useSingleSelector(feed.selectors.description, articleHtml)) ??
       "";
     const link = useSingleSelector(feed.selectors.link, articleHtml);
-    const date =
-      feed.selectors.date && feed.selectors.date !== ""
-        ? new Date(useSingleSelector(feed.selectors.date, articleHtml))
-        : undefined;
+    const maybeDateString =
+      feed.selectors.date &&
+      useSingleSelector(feed.selectors.date, articleHtml);
+    const date = maybeDateString ? new Date(maybeDateString) : undefined;
 
     return {
       title,
